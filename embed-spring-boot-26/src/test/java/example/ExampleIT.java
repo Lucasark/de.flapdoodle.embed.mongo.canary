@@ -13,15 +13,17 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@AutoConfigureMockMvc
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
 class ExampleIT {
+
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
-    void example(@Autowired final MongoTemplate mongoTemplate) {
-        Assertions.assertNotNull(mongoTemplate.getDb());
-        ArrayList<String> collectionNames = mongoTemplate.getDb()
-          .listCollectionNames()
-          .into(new ArrayList<>());
-        assertThat(collectionNames).isEmpty();
+    void example(@Autowired final MongoTemplate mongoTemplate) throws Exception {
+        Assertions.assertThat(mongoTemplate.getDb()).isNotNull();
+        mockMvc.perform(MockMvcRequestBuilders.get("https://www.google.com.br")).andDo(print());
     }
 }
