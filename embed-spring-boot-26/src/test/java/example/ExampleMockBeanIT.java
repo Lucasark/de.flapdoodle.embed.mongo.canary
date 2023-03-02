@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,15 +18,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
-@DisplayName("This one not works using SpyMock")
-class ExampleIT {
+@DisplayName("This one works using MockBean")
+class ExampleMockBeanIT {
 
     protected MockMvc mockMvc;
 
     @SpyBean
     private UserService userService;
 
-    @SpyBean(name = "otherService")
+    @MockBean(name = "otherService")
     private OtherService otherService;
 
     @BeforeEach
